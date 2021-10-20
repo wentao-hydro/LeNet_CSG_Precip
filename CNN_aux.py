@@ -187,16 +187,10 @@ def lenet3out_2conv_2emb(image_size, n_channel, n_word_max_lat,n_word_max_lon, n
     features_in = layers.Input( shape=( image_size,image_size,n_channel) ) 
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[0], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(features_in)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[1], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
-    # Conv => ReLu 
-    # x = layers.Conv2D( filters=f[1], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
-    # x = layers.BatchNormalization()(x)
 
 
     if (apply_dropout):
@@ -242,15 +236,12 @@ def lenet3out_3conv_2emb(image_size, n_channel, n_word_max_lat,n_word_max_lon, n
     features_in = layers.Input( shape=( image_size,image_size,n_channel) ) 
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[0], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(features_in)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[1], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[2], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
 
 
@@ -298,19 +289,15 @@ def lenet3out_4conv_2emb(image_size, n_channel, n_word_max_lat,n_word_max_lon, n
     features_in = layers.Input( shape=( image_size,image_size,n_channel) ) 
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[0], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(features_in)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[1], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[2], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
     # Conv => ReLu 
     x = layers.Conv2D( filters=f[3], kernel_size=kernel_size, strides=1, activation='elu',padding='valid', kernel_initializer=initializer)(x)
-    # res.add(layers.MaxPooling2D( pool_size=(2,2), strides=2, padding='valid'))
     x = layers.BatchNormalization()(x)
 
 
