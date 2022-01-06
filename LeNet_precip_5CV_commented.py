@@ -6,6 +6,7 @@
 #from line 233 to line 369: prepare TRAIN, VALID, TEST dataset 
 #after line 369: train and validation steps
 
+
 #%%
 import tensorflow as tf
 import numpy as np
@@ -49,8 +50,8 @@ file_path = '/data/home/scv0203/run/EC_0704/'
 
 
 
-#%% load research region mask 
-region_class = np.loadtxt( file_path+'input/dem_huaip25_0619.txt', skiprows = 6)
+#%% load basin mask, grids in basin have values larger than zero  
+region_class = np.loadtxt( file_path+'input/region_mask_0p25_0619.txt', skiprows = 6)
 # plt.imshow( np.flipud(region_class) )
 
 #% index for grids within the research region
@@ -61,24 +62,17 @@ ngrid_used = len( lat_index_used_FINAL)
 
 
 
-# %% load obs of 0.25 deg
-obs_19982017_leadtime_0p25 = xr.open_dataarray (file_path+"input/obs_0p25_CMA_leadtime_19982017_China.nc")
+# %% load obs of 0.25 deg in the region
+obs_19982017_leadtime_0p25 = xr.open_dataarray (file_path+"input/obs_0p25_2leadtime_19982017_Region.nc")
 obs_lat = obs_19982017_leadtime_0p25.latitude
 obs_lon = obs_19982017_leadtime_0p25.longitude
 
 
 
-#%% select obs of the research region
-lat_min,lat_max = 31,31+0.25*(21-1) #region
+#lat/lon of the research region
+lat_min,lat_max = 31,31+0.25*(21-1)  
 lon_min,lon_max = 112,112+0.25*(38-1-1)
-ind_lat_obs = np.where( (obs_lat >= lat_min)&(obs_lat <= lat_max) )[0]
-ind_lon_obs = np.where( (obs_lon >= lon_min)&(obs_lon <= lon_max) )[0]
-nlon_obs = len(ind_lon_obs)
-nlat_obs = len(ind_lat_obs)
-obs_lat_used = obs_lat[ind_lat_obs[:nlat_obs]]
-obs_lon_used = obs_lon[ind_lon_obs[:nlon_obs]]
-obs_lat_min = np.min(obs_lat)
-obs_lon_min = np.min(obs_lon)
+
 
 
 
@@ -91,7 +85,7 @@ y_true_array = np.zeros(( ndaysummer , 19,  ngrid_used))
 
 
 
-#%% 
+#%% main loop 
 
 for ilead in range( 2 ):
 
@@ -108,10 +102,9 @@ for ilead in range( 2 ):
     #  predictors include: TP,CP,  TCW, TCWV,  TCC, MSL,  10U/V,  2m T
 
 
-    #%% select obs lead 1 and 2 days 
-    obs_region = obs_19982017_leadtime_0p25[35:70, :, 1:, ind_lat_obs , ind_lon_obs ] # dimension: days,years,lead,lat,lon
-    obs_region = np.array(obs_region)
-    obs_used = obs_region [:, :, ilead, lat_index_used_FINAL , lon_index_used_FINAL ]  #select grids in the region,   
+    #%% select obs at grids in the basin 
+    obs_region = np.array(obs_region)# dimension: days,years,lead,lat,lon
+    obs_used = obs_region [:, :19, ilead, lat_index_used_FINAL , lon_index_used_FINAL ]  #select grids in the region,   
 
 
     #%% load DEM, each center grid with 9*9 neighbor grids
